@@ -1,0 +1,56 @@
+@import "_fonts";
+@import "_null";
+@import "_help";
+@import "_levels";
+@import "_main";
+@import "_lvl";
+
+$ff1: my1;
+$ff2: my2;
+$yellow: rgba(255, 196, 0, 0.562);
+
+body {
+    background-image: url(../images/bg.jpg);
+    max-width: 1240px;
+    margin: auto;
+    padding: 0 20px;
+}
+
+.block__header {
+    display: flex;
+    .menu {
+        margin: auto;
+        ul {
+            width: 600px;
+            display: flex;
+            justify-content: space-between;
+        }
+        li {
+            padding: 0 30px;
+            display: flex;
+            border-radius: 30px 30px 60px 60px;
+            p {
+                margin: 40px 0;
+                font-size: 45px;
+                font-family: $ff1;
+                font-weight: 900;
+                text-transform: uppercase;
+                color: black;
+            }
+        }
+        .not__selected li {
+            background-color: none;
+            transition: background-color 1s ease;
+            &:hover {
+                background-color: white;
+                transition: background-color 1s ease;
+            }
+        }
+        .selected li {
+            background: $yellow;
+            p {
+                color: white;
+            }
+        }
+    }
+}

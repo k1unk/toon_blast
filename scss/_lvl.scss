@@ -1,0 +1,39 @@
+.container {
+    max-width: 1240px;
+    margin: auto;
+    padding: 0 20px;
+    display: flex;
+
+}
+
+img {
+    width: 45px;
+    height: 55px;
+}
+
+.field {
+    margin: 10px auto auto auto;
+    width: 550px;
+    position: relative;
+    transition: all 1s;
+    -webkit-transition: all 1s;
+}
+
+.blocks {
+    position: absolute;
+    transition: all 1s;
+    -webkit-transition: all 1s;
+}
+
+.data {
+    p {
+        font-size: 25px;
+        font-family: Arial, Helvetica, sans-serif;
+        font-weight: 300;
+        color: black;
+    }
+}
+
+.aim, .div_steps {
+    display: flex;
+}
