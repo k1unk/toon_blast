@@ -1,3 +1,6 @@
+//стили уровней
+
+//контент
 .container {
     max-width: 1240px;
     margin: auto;
@@ -5,12 +8,12 @@
     display: flex;
 
 }
-
+//размеры картинок (блоков поля в игре)
 img {
     width: 45px;
     height: 55px;
 }
-
+//само поле
 .field {
     margin: 10px auto auto auto;
     width: 550px;
@@ -18,13 +21,13 @@ img {
     transition: all 1s;
     -webkit-transition: all 1s;
 }
-
+//блоки поля в игре
 .blocks {
     position: absolute;
     transition: all 1s;
     -webkit-transition: all 1s;
 }
-
+//данные об уровне
 .data {
     p {
         font-size: 25px;
@@ -33,7 +36,7 @@ img {
         color: black;
     }
 }
-
+//данные о цели уровня и количестве оставшихся ходов
 .aim, .div_steps {
     display: flex;
 }

@@ -1,21 +1,29 @@
+//страница уровней
+
+//импортируем шрифты
 @import "_fonts";
 
+//константы шрифтов и желтого цвета
 $ff1: my1;
 $ff2: my2;
 $yellow: rgba(255, 196, 0, 0.562);
 
+//блок уровней
 .levels {
     margin: 30px auto 0 auto;
     width: 700px;
+    //ряд
     .row {
         display: flex;
         justify-content: space-between;
         margin: 30px 0;
+        //ссылка на уровень
         a {
             width: 16%;
             border: 1px solid black;
             border-radius: 40px;
             background: linear-gradient(35deg, $yellow, #ffffff);
+            //текст в ссылке, показывающий номер уровня
             p {
                 margin: 0;
                 text-align: center;
@@ -28,6 +36,7 @@ $yellow: rgba(255, 196, 0, 0.562);
             background-size: 140% 340%;
             background-image: linear-gradient(35deg, $yellow 90%, #bba2a2 30%),
                 linear-gradient(35deg, #da8d00 30%, #e6e6e6 70%);
+            //при наведении на ссылку
             &:hover {
                 background-size: 440% 400%;
             }

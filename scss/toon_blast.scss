@@ -1,3 +1,6 @@
+//объединение всех файлов 
+
+//импорт
 @import "_fonts";
 @import "_null";
 @import "_help";
@@ -5,10 +8,12 @@
 @import "_main";
 @import "_lvl";
 
+//константы шрифтов и цвета
 $ff1: my1;
 $ff2: my2;
 $yellow: rgba(255, 196, 0, 0.562);
 
+//тело страниц
 body {
     background-image: url(../images/bg.jpg);
     max-width: 1240px;
@@ -16,19 +21,24 @@ body {
     padding: 0 20px;
 }
 
+//меню (шапка) сайта (блок)
 .block__header {
     display: flex;
+    //меню
     .menu {
         margin: auto;
+        //список
         ul {
             width: 600px;
             display: flex;
             justify-content: space-between;
         }
+        //элемент списка
         li {
             padding: 0 30px;
             display: flex;
             border-radius: 30px 30px 60px 60px;
+            //текст
             p {
                 margin: 40px 0;
                 font-size: 45px;
@@ -38,16 +48,20 @@ body {
                 color: black;
             }
         }
+        //не выбранный элемент (выбранный - тот, на странице которого мы находимся)
         .not__selected li {
             background-color: none;
             transition: background-color 1s ease;
+            //при наведении
             &:hover {
                 background-color: white;
                 transition: background-color 1s ease;
             }
         }
+        //выбранный элемент
         .selected li {
             background: $yellow;
+            //текст
             p {
                 color: white;
             }

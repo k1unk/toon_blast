@@ -1,40 +1,56 @@
-//all JS files are different only in 4,5,6,7,8 lines
+// всё начинает действовать только при загрузке страницы
 window.onload = function () {
-	//constants 
+	//константы
+	
+	//количество оставшихся шагов на уровне
 	let steps = 5
+	//количество блоков для победы
 	let need_to_win = 15
+	//блок какого цвета нам нужно собирать
 	let what_color_need_to_win = 0
+	//количество цветов блоков на данном уровне
 	let colors = 4;
+	//размер поля
 	let size = 10;
-
+	//поле в html'e
 	let field = document.querySelector('.field');
+	//поле в js'e (двумерный массив)
 	var arr = [];
+	//размер блока в пикселях
 	let sizeOfBlockPx = 45;
+	//список уничтоженных блоков
 	var killed_blocks = [];
 	for (var i = 0; i < colors; i++) {
 		killed_blocks[i] = 0
 	}
 
-	//fill array with blocks
-	//0,1,2,3,4 - block of some color
-	//6 - kill all blocks in horizontal (bonus)
-	//7 - kill all blocks in vertical (bonus)
-	//8 - kill all blocks around it (bonus)
-	//9,10,11,12,13 - kill all blocks with the same color (bonus)
+	//заполняем массив блоков
+
+	//0,1,2,3,4 - блок какого-либо цвета
+	//6 - уничтожение всех элементов горизонтального ряда (бонус)
+	//7 - уничтожение всех элементов вертикального ряда (бонус)
+	//8 - уничтожение всех элементов вокруг себя (бонус)
+	//9,10,11,12,13 - уничтожение всех элементов данного цвета (бонус)
+
+	//от 0 до size*2 потому что нужны блоки, которые будут падать при исчезновении старых
 	for (var i = 0; i < size * 2; i++) {
 		arr[i] = [];
 		for (var j = 0; j < size; j++) {
+			//каждая ячейка получает блок случайного цвета
 			arr[i][j] = Math.floor(Math.random() * colors);
 		}
 	}
 
+	//функция отрисовки поля
 	draw_on_start(field)
 	function draw_on_start(field) {
 		out = '';
+		//от size до size*2 потому что нам не нужно отрисовывать запасные блоки
 		for (var i = size; i < size * 2; i++) {
 			for (var j = 0; j < size; j++) {
 				for (var k = 0; k < 9 + colors; k++) {
 					if (arr[i][j] == k) {
+						//создание html эелмента
 						out += '<img src="../../images/elem';
 						out += k;
 						out += '.png" alt="" class="blocks" id = ';
@@ -48,9 +64,10 @@ window.onload = function () {
 				}
 			}
 		}
+		//добавление html элемента к html файлу
 		field.innerHTML += out;
 
-		//fill array with ID
+		//заполняем массив, в котором находятся ID всех наших блоков 
 		blocks = []
 		for (var i = 0; i < size; i++) {
 			blocks[i] = []
@@ -60,7 +77,7 @@ window.onload = function () {
 			}
 		}
 
-		//add onclick
+		//при нажатии на блок - вызывается функция clicked
 		for (var i = 0; i < size; i++) {
 			for (var j = 0; j < size; j++) {
 				blocks[i][j].onclick = clicked(arr, i + size, j);
@@ -68,13 +85,17 @@ window.onload = function () {
 		}
 	}
 
-	//if we clicked on some block
+	//функция вызывается при нажатии пользователем на какой либо блок
 	function clicked(arr, i, j) {
 		return function () {
+			//запоминаем значение ячейки
 			now = arr[i][j];
 
-			//work с arr
+			//смотрим значение нажатой ячейки и в зависимости от этого чтото делаем
+
+			//если это обычный блок - надо удалить все блоки, которые к нему прислонены, и все их такие блоки, и все их ... 
 			if (now < colors && now > -1) {
+				//создание массивов
 				var deleted = [];
 				deleted[0] = 1
 				list_of_i_1 = []
@@ -88,6 +109,7 @@ window.onload = function () {
 				array_i_j_value = 0
 				killed_blocks[now] += 1
 
+				//сам перебор блоков
 				while (list_of_i_1.length != 0) {
 
 					i_2 = list_of_i_1[0]
@@ -122,6 +144,7 @@ window.onload = function () {
 					}
 				}
 
+				//если удалено более 4 блоков - надо добавить бонус
 				if (deleted[0] > 4 && deleted[0] < 7) {
 					if (Math.random() > 0.5) {
 						arr[i][j] = 6
@@ -141,10 +164,12 @@ window.onload = function () {
 					array_i_j_value = 9 + now
 				}
 
-				//animation of block's disappearing
+				//вызываем функцию анимации удаленных блоков
 				animation_death_block(list_of_i_2, list_of_j_2, array_i_j_value, deleted[0])
 			}
 
+			// если это не обычный блок, а бонус - удаляем необходимые блоки в массиве (bonus_death_in_arr), а 
+			// затем вызываем анимацию (bonus_death_animation)
 			if (now == 6) {
 				for (var jj = 0; jj < size; jj++) {
 					bonus_death_in_arr(killed_blocks, i, jj, arr)
@@ -199,6 +224,7 @@ window.onload = function () {
 				}
 			}
 
+			//удаление необходимых блоков при нажатии на бонус
 			function bonus_death_in_arr(killed_blocks, i_3, j_3, arr) {
 				for (var k = 0; k < colors; k++) {
 					if (arr[i_3][j_3] == k) {
@@ -208,7 +234,7 @@ window.onload = function () {
 				arr[i_3][j_3] = -1
 			}
 
-			//fallen blocks, animation
+			//падение блоков, анимация
 			for (var i_1 = 0; i_1 < size; i_1++) {
 				for (var j_1 = 0; j_1 < size; j_1++) {
 					for (var i_2 = i_1; i_2 < size; i_2++) {
@@ -224,7 +250,7 @@ window.onload = function () {
 				}
 			}
 
-			//fallen blocks, in array
+			//падение блоков, в массиве
 			for (var i_1 = 0; i_1 < size; i_1++) {
 				for (var j_1 = size * 2 - 1; j_1 > size - 1; j_1--) {
 					for (var j_2 = size - 1; j_2 > -1; j_2--) {
@@ -240,9 +266,10 @@ window.onload = function () {
 				}
 			}
 
-			//generate new blocks, animation
+			//создание новых блоков, анимация (через 1100мс, потому что это время старые блоки будут падать и исчезать)
 			setTimeout(fallBlocks, 1100);
 			function fallBlocks() {
+				//удаляется старое поле, и создаётся новое
 				let elem = document.querySelector('.field');
 
 				elem.parentNode.removeChild(elem);
@@ -252,10 +279,12 @@ window.onload = function () {
 				container.innerHTML += out;
 
 				let field = document.querySelector('.field');
+
+				//отрисовка нового поля
 				draw_on_start(field)
 			}
 
-			//generate new blocks, in array
+			//создание новых блоков в массиве
 			for (var i_1 = 0; i_1 < size * 2; i_1++) {
 				for (var j_1 = 0; j_1 < size; j_1++) {
 					if (arr[i_1][j_1] == -1) {
@@ -264,10 +293,13 @@ window.onload = function () {
 				}
 			}
 
+			//вывод в консоль
 			console.log(arr)
 			console.log(killed_blocks)
 
-			//change information about level's process
+			//меняем информацию о процессе уровня
+			
+			//сколько осталось уничтожить блоков
 			n = need_to_win - killed_blocks[what_color_need_to_win]
 			if (n < 0) n = 0
 			let elem = document.querySelector('.p_need_to_win');
@@ -279,8 +311,8 @@ window.onload = function () {
 			out += '</p>'
 			container.innerHTML += out;
 
+			//сколько осталось ходов
 			steps -= 1
-
 			let elem2 = document.querySelector('.p_steps');
 			elem2.parentNode.removeChild(elem2);
 			let container2 = document.querySelector('.div_steps');
@@ -290,6 +322,7 @@ window.onload = function () {
 			out += '</p>'
 			container2.innerHTML += out;
 
+			//если кончились ходы - поражение, если сломали необходимое количество блоков - победа
 			if (steps == 0 && n > 0) {
 				setTimeout(alert, 1100, "YOU LOSE")
 			}
@@ -298,7 +331,7 @@ window.onload = function () {
 
 	}
 
-	//animation of block's disappearing
+	//анимация исчезновения блоков при нажатии на обычный блок
 	function animation_death_block(list_of_i_2, list_of_j_2, array_i_j_value, counter) {
 		if (counter < 5) {
 			for (var i = 0; i < list_of_i_2.length; i++) {
@@ -330,7 +363,7 @@ window.onload = function () {
 		}
 	}
 
-	//animation of block's disappearing, if user clicked the bonus
+	//анимация исчезновения блоков при нажатии на бонус
 	function bonus_death_animation(i, j, now) {
 		i = i - size
 		if (now == 6) {

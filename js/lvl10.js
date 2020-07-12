@@ -1,4 +1,4 @@
-//all JS files are different only in 4,5,6,7,8 lines
+//всё как в lvl1.js, кроме строк 4-8, в которых уникальная информация об уровне
 window.onload = function () {
 	//constants 
 	let steps = 13
